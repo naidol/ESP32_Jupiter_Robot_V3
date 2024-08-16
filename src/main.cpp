@@ -246,6 +246,11 @@ void loop() {
 
         // Update odometry
         odometry.update(fl_velocity, fr_velocity, bl_velocity, br_velocity, dt);
+        // Get the odometry message
+        nav_msgs__msg__Odometry odom_msg = odometry.getOdometryMsg();
+
+        // Publish the Odometry message
+        rcl_ret_t ret_odom_ok = rcl_publish(&odom_publisher, &odom_msg, NULL);
 
         // Calculate PID outputs
         WheelSpeeds target_speeds = kinematics.inverseKinematics(target_linear_velocity, target_angular_velocity);
